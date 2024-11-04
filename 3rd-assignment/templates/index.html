@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDR Image Processor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        .upload-section {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .upload-box {
+            border: 2px dashed #007bff;
+            padding: 10px;
+            border-radius: 5px;
+            width: 30%;
+            position: relative;
+        }
+        .upload-box h3 {
+            margin-bottom: 10px;
+        }
+        .preview-image {
+            max-width: 100%;
+            max-height: 150px; /* Set a max height for preview images */
+            display: none;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .method-selection {
+            margin: 20px 0;
+        }
+        .method-selection label {
+            margin: 0 10px;
+        }
+        .result-section {
+            border: 2px solid #28a745;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        #resultImage {
+            width: 100%; /* Make result image responsive */
+            max-width: 800px; /* Set a maximum width */
+            display: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #processButton {
+            margin-top: 20px;
+        }
+        .loading {
+            display: none;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .error {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HDR Image Processor</h1>
+        
+        <div class="upload-section">
+            <div class="upload-box">
+                <h3>Low Exposure</h3>
+                <input type="file" id="lowExposure" accept=".jpg,.jpeg,.png" hidden>
+                <button class="button" onclick="document.getElementById('lowExposure').click()">Choose File</button>
+                <img id="lowPreview" class="preview-image">
+            </div>
+            
+            <div class="upload-box">
+                <h3>Medium Exposure</h3>
+                <input type="file" id="mediumExposure" accept=".jpg,.jpeg,.png" hidden>
+                <button class="button" onclick="document.getElementById('mediumExposure').click()">Choose File</button>
+                <img id="mediumPreview" class="preview-image">
+            </div>
+            
+            <div class="upload-box">
+                <h3>High Exposure</h3>
+                <input type="file" id="highExposure" accept=".jpg,.jpeg,.png" hidden>
+                <button class="button" onclick="document.getElementById('highExposure').click()">Choose File</button>
+                <img id="highPreview" class="preview-image">
+            </div>
+        </div>
+        <h2>HDR image after tone mapping </h2>
+
+        <div class="method-selection">
+            <label>
+                <input type="radio" name="method" value="opencv" checked>
+                OpenCV Method 
+            </label>
+            <label>
+                <input type="radio" name="method" value="custom">
+                Custom Algorithm
+            </label>
+        </div>
+
+        <button id="processButton" class="button" disabled>Process Images</button>
+        
+        <div class="loading" id="loading">Processing...</div>
+        <div class="error" id="error"></div>
+        
+        <div class="result-section">
+            <h3>Processed Result:</h3>
+            <img id="resultImage">
+        </div>
+    </div>
+
+    <script>
+        const fileInputs = {
+            low: document.getElementById('lowExposure'),
+            medium: document.getElementById('mediumExposure'),
+            high: document.getElementById('highExposure')
+        };
+
+        const previews = {
+            low: document.getElementById('lowPreview'),
+            medium: document.getElementById('mediumPreview'),
+            high: document.getElementById('highPreview')
+        };
+
+        const processButton = document.getElementById('processButton');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const resultImage = document.getElementById('resultImage');
+
+        // Handle file selection and preview
+        Object.entries(fileInputs).forEach(([key, input]) => {
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previews[key].src = e.target.result;
+                        previews[key].style.display = 'block';
+                        checkAllFilesSelected();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        function checkAllFilesSelected() {
+            const allSelected = Object.values(fileInputs).every(input => input.files.length > 0);
+            processButton.disabled = !allSelected;
+        }
+
+        processButton.addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('low', fileInputs.low.files[0]);
+            formData.append('medium', fileInputs.medium.files[0]);
+            formData.append('high', fileInputs.high.files[0]);
+            
+            // Add the selected method to the form data
+            const selectedMethod = document.querySelector('input[name="method"]:checked').value;
+            formData.append('method', selectedMethod);
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            resultImage.style.display = 'none';
+            processButton.disabled = true;
+
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultImage.src = `/static/${data.result}`;
+                    resultImage.style.display = 'block';
+                } else {
+                    throw new Error(data.error || 'Failed to process images');
+                }
+            } catch (err) {
+                error.textContent = err.message;
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                processButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
