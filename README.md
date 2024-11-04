@@ -80,7 +80,8 @@ pip list
 
 1. Go inside First Assignment Folder
 
-```cd 1st-assignment
+```
+cd 1st-assignment
 
 ```
 
