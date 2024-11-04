@@ -135,7 +135,7 @@ Windows: .\env\Scripts\activate
 macOS/Linux: source env/bin/activate
 
 ## Step 3: Install Requirements
-Install all required packages:
+Install all required packages:(If required)
 
 ```bash
 pip install -r requirements.txt
