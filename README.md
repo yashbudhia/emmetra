@@ -64,7 +64,7 @@ python -m venv env
 source env/bin/activate # On macOS/Linux
 .\env\Scripts\activate # On Windows
 
-# 2. Install PyTorch for CUDA 11.8
+# 2. Install PyTorch for CUDA 11.8 (or install specific version of pytorch for your version of cuda)
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # 3. Install other requirements
@@ -73,3 +73,42 @@ pip install -r requirements.txt
 # 4. Verify installed packages
 pip list
 ```
+
+### Accessing Projects
+
+## 1st Assignment
+
+1. Go inside First Assignment Folder
+
+```cd 1st-assignment
+
+```
+
+2. Run Flask server by typing the command in the terminal
+
+```
+python app.py
+```
+
+3. The UI for Custom Image Signal Processing pipeline will appear on the web browser in the url [localhost:5000](http://127.0.0.1:5000)
+
+4. If you want to see OpenCV implementation - Go inside the folder
+
+```
+cd openCV-version
+```
+
+- And run flask server by typing the command in the terminal
+
+```
+python app.py
+```
+
+5. If you want to see Custom ISP code without any UI . Just Naviagate to Custom-ISP folder and run python ISP.py in the terminal
+
+```
+cd ..
+cd Custom-ISP
+```
+
+- Feel free to tweak the parameters
