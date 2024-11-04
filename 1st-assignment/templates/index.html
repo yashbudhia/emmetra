@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISP Pipeline Controller</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/styles.css" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <h1>ISP Pipeline Controller</h1>
+      <div class="controls">
+        <div class="form-group">
+          <label for="file">Upload RAW Image:</label>
+          <input type="file" id="file" accept=".raw" />
+        </div>
+
+        <div class="form-group">
+          <label for="gamma">Gamma:</label>
+          <input type="number" id="gamma" value="2.2" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="compression">Compression Factor:</label>
+          <input type="number" id="compression" value="2.0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="white_balance">White Balance (Scale Factor):</label>
+          <input type="number" id="white_balance" value="1.0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="denoise">Denoising Strength:</label>
+          <input type="number" id="denoise" value="1.0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="sharpen">Sharpening Amount:</label>
+          <input type="number" id="sharpen" value="1.0" step="0.1" />
+        </div>
+
+        <div class="form-group">
+          <label for="gaussian_blur">Gaussian Blur Radius:</label>
+          <input type="number" id="gaussian_blur" value="1.0" step="0.1" />
+        </div>
+
+        <button id="processBtn" disabled>Process Image</button>
+
+        <!-- Zoom Controls in Sidebar -->
+        <div class="zoom-controls">
+          <button id="zoomInBtn">Zoom In</button>
+          <button id="zoomOutBtn">Zoom Out</button>
+        </div>
+
+        <div id="status" class="status" style="display: none"></div>
+      </div>
+    </div>
+
+    <div class="image-container">
+      <div id="preview" class="preview">
+        <img
+          id="processed-image"
+          style="display: none"
+          alt="Processed Preview"
+        />
+      </div>
+    </div>
+
+    <script>
+      let currentFilename = null;
+      let zoomLevel = 1.0;
+      let isDragging = false;
+      let startX, startY, initialX, initialY;
+
+      // Upload handler
+      $("#file").on("change", function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        $("#status").removeClass("success error").html("Uploading...").show();
+
+        $.ajax({
+          url: "/upload",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            currentFilename = response.filename;
+            $("#processBtn").prop("disabled", false);
+            $("#status")
+              .addClass("success")
+              .html("File uploaded successfully")
+              .show();
+          },
+          error: function (xhr) {
+            $("#status")
+              .addClass("error")
+              .html(xhr.responseJSON?.error || "Upload failed")
+              .show();
+          },
+        });
+      });
+
+      // Process handler
+      $("#processBtn").on("click", function () {
+        if (!currentFilename) return;
+
+        const params = {
+          filename: currentFilename,
+          params: {
+            gamma: parseFloat($("#gamma").val()),
+            compression_factor: parseFloat($("#compression").val()),
+            white_balance: parseFloat($("#white_balance").val()),
+            denoise: parseFloat($("#denoise").val()),
+            sharpen: parseFloat($("#sharpen").val()),
+            gaussian_blur: parseFloat($("#gaussian_blur").val()),
+          },
+        };
+
+        $("#status").removeClass("success error").html("Processing...").show();
+
+        $.ajax({
+          url: "/process",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(params),
+          success: function (response) {
+            $("#status")
+              .addClass("success")
+              .html(
+                'Processing complete! <a href="/download/' +
+                  currentFilename +
+                  '">Download processed image</a>'
+              )
+              .show();
+
+            // Update preview
+            $("#processed-image")
+              .attr(
+                "src",
+                "/download/" + currentFilename + "?" + new Date().getTime()
+              )
+              .css("transform", `scale(${zoomLevel})`)
+              .css("left", "0px")
+              .css("top", "0px")
+              .show();
+          },
+          error: function (xhr) {
+            $("#status")
+              .addClass("error")
+              .html(xhr.responseJSON?.error || "Processing failed")
+              .show();
+          },
+        });
+      });
+
+      // Zoom in/out functionality
+      $("#zoomInBtn").on("click", function () {
+        zoomLevel += 0.1;
+        $("#processed-image").css("transform", `scale(${zoomLevel})`);
+      });
+
+      $("#zoomOutBtn").on("click", function () {
+        zoomLevel = Math.max(0.1, zoomLevel - 0.1); // Prevent zooming out too much
+        $("#processed-image").css("transform", `scale(${zoomLevel})`);
+      });
+
+      // Dragging functionality for the processed image
+      const processedImage = document.getElementById("processed-image");
+
+      processedImage.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialX = parseInt(processedImage.style.left || 0, 10);
+        initialY = parseInt(processedImage.style.top || 0, 10);
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        processedImage.style.left = initialX + dx + "px";
+        processedImage.style.top = initialY + dy + "px";
+      });
+
+      document.addEventListener("mouseup", function () {
+        isDragging = false;
+      });
+    </script>
+  </body>
+</html>

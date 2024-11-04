@@ -1,0 +1,124 @@
+/* General Layout */
+body {
+  display: flex;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 300px; /* Fixed width for sidebar */
+  background-color: #333; /* Dark background for sidebar */
+  color: #fff; /* White text color */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  height: 100vh; /* Full height sidebar */
+  overflow-y: auto; /* Allow scrolling */
+  z-index: 20; /* Increased z-index for sidebar */
+}
+
+.sidebar h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between controls */
+  width: 100%;
+}
+
+/* Input and Button Styles */
+input[type="file"],
+input[type="number"],
+button {
+  width: 250px;
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #444; /* Dark input fields */
+  color: #ddd; /* Light text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+button {
+  background-color: #007bff; /* Button color */
+  color: #fff; /* White text on button */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Status Message Styling */
+.status {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: #d4edda; /* Success background */
+  color: #155724; /* Success text */
+}
+
+.error {
+  background-color: #f8d7da; /* Error background */
+  color: #721c24; /* Error text */
+}
+
+/* Image Display */
+.image-container {
+  flex-grow: 1; /* Allow this section to grow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 300px; /* Space for sidebar */
+  padding: 20px;
+  position: relative;
+  z-index: 1; /* Ensure it appears above the sidebar */
+}
+
+.preview {
+  text-align: center; /* Center preview */
+}
+
+#processed-image {
+  max-width: 90%; /* Maximum width of image */
+  max-height: 80vh; /* Maximum height of image */
+  border: 2px solid #ddd; /* Border around image */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  position: absolute; /* Allows for draggable positioning */
+  cursor: grab; /* Pointer style to indicate draggable image */
+}
+
+/* Zoom Controls */
+.zoom-controls {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between zoom buttons */
+}
+
+.zoom-controls button {
+  padding: 10px;
+  font-size: 1em;
+  background-color: #007bff; /* Button color */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+}
+
+.zoom-controls button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
