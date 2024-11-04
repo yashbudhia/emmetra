@@ -16,6 +16,10 @@
 
 Here's a step-by-step guide to set up the environment and install requirements for your assignments, ensuring each step is covered from environment setup to dependencies installation.
 
+## Recommended IDE to run -
+
+- VS code
+
 ## Step 1: Set Up a Python Virtual Environment
 
 A virtual environment helps isolate project-specific dependencies. Here's how to create one:
