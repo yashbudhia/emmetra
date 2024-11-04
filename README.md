@@ -1,5 +1,4 @@
-<details>
-<summary>Table of Contents</summary>
+# Table of Contents
 
 - [Environment Setup and Requirements Installation](#environment-setup-and-requirements-installation)
 
@@ -10,18 +9,8 @@
 
 - [Accessing Projects](#accessing-projects)
   - [1st Assignment](#1st-assignment)
-    - [Running the Custom Image Signal Processing (ISP) UI](#running-the-custom-image-signal-processing-isp-ui)
-    - [OpenCV Implementation](#opencv-implementation)
-    - [Running the Custom ISP Code](#running-the-custom-isp-code)
   - [2nd Assignment](#2nd-assignment)
-    - [Generating a Denoised Image with FFDNet Model](#generating-a-denoised-image-with-ffdnet-model)
-    - [Running the Main Processing Script](#running-the-main-processing-script)
-    - [Custom Model Usage](#custom-model-usage)
   - [3rd Assignment](#3rd-assignment)
-    - [Running the Assignment](#running-the-assignment)
-    - [Uploading Images for HDR Processing](#uploading-images-for-hdr-processing)
-
-</details>
 
 # Environment Setup and Requirements Installation
 
