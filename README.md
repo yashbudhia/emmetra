@@ -76,7 +76,7 @@ pip list
 
 ### Accessing Projects
 
-## 1st Assignment
+# 1st Assignment
 
 1. Go inside First Assignment Folder
 
@@ -114,40 +114,83 @@ cd Custom-ISP
 
 - Feel free to tweak the parameters
 
-# Emmetra: 3rd Assignment
+# 2nd Assignment
+
+For Running 2nd assignment - follow the steps
+
+## Step 1 : Navigate to 2nd-assignment folder if the environment is setup
+
+```bash
+cd emmetra/2nd-assignment
+```
+
+## Step 2 : First go to ffdnet model folder and generate a denoised image
+
+```
+cd ffdnet-pytorch
+
+```
+
+- after reaching here run the command in terminal to denoise sample image obtained from the ISP from assignment 1(image.png)
+
+```
+python test_ffdnet_ipol.py --input image.png --noise_sigma 25 --add_noise True
+
+```
+
+- After the model has generated the image now go back
+
+```
+cd ..
+```
+
+- Now run
+
+```
+python main.py
+```
+
+- It will then generate reports of the image in various denoising and edge effects.
+
+- You can configure the input by replacing image.png in inputs folder with your image (rename it to image.png) and in ffdnet folder too
+
+- Remember - Run the FFDnetModel before running the main.py script.
+
+### Custom model usage -
+
+- Custom model was still in development(unfortunately) so would recommend just leave it as is. anyway run
+
+```
+python main_processing.py
+```
+
+to generate reports using custom model
+
+# 3rd Assignment
+
 Overview
 Briefly explain the purpose of the assignment, its main functionality, and any core concepts or algorithms it implements.
 
 Environment Setup and Requirements Installation
-## Step 1: Clone the Repository
-```bash 
-git clone https://github.com/yashbudhia/emmetra.git
+
+## Step 1: Navigate to 3rd-assignment folder if the environment is setup
+
+```bash
 cd emmetra/3rd-assignment
 ```
-## Step 2: Set Up a Virtual Environment
-Creating a virtual environment isolates project dependencies.
 
-```bash
-python -m venv env
-```
-Activate the environment:
-Windows: .\env\Scripts\activate
-macOS/Linux: source env/bin/activate
+## Step 2: Running the Assignment
 
-## Step 3: Install Requirements
-Install all required packages:(If required)
-
-```bash
-pip install -r requirements.txt
-```
-## Step 4: Running the Assignment
 Include any instructions for running scripts, such as:
 
-Navigate to the assignment folder:
-```bash
-cd 3rd-assignment
-```
 Run the main script:
+
 ```bash
 python app.py
 ```
+
+- The UI Will then appear on the Web Browser at [localhost:5000](http://127.0.0.1:5000)
+
+## Step 3: Upload the images
+
+- Upload the images at given exposures and obtain the HDR image. Sample inputs are present at inputs folder at 3rd-assignment folder.
