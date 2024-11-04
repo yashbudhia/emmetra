@@ -114,17 +114,17 @@ cd Custom-ISP
 
 - Feel free to tweak the parameters
 
-#Emmetra: 3rd Assignment
+# Emmetra: 3rd Assignment
 Overview
 Briefly explain the purpose of the assignment, its main functionality, and any core concepts or algorithms it implements.
 
 Environment Setup and Requirements Installation
-##Step 1: Clone the Repository
+## Step 1: Clone the Repository
 ```bash 
 git clone https://github.com/yashbudhia/emmetra.git
 cd emmetra/3rd-assignment
 ```
-##Step 2: Set Up a Virtual Environment
+## Step 2: Set Up a Virtual Environment
 Creating a virtual environment isolates project dependencies.
 
 ```bash
@@ -134,13 +134,13 @@ Activate the environment:
 Windows: .\env\Scripts\activate
 macOS/Linux: source env/bin/activate
 
-##Step 3: Install Requirements
+## Step 3: Install Requirements
 Install all required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
-##Step 4: Running the Assignment
+## Step 4: Running the Assignment
 Include any instructions for running scripts, such as:
 
 Navigate to the assignment folder:
