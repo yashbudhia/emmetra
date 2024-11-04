@@ -1,3 +1,28 @@
+<details>
+<summary>Table of Contents</summary>
+
+- [Environment Setup and Requirements Installation](#environment-setup-and-requirements-installation)
+
+  - [Step 1: Set Up a Python Virtual Environment](#step-1-set-up-a-python-virtual-environment)
+  - [Step 2: Install CUDA-Compatible PyTorch](#step-2-install-cuda-compatible-pytorch)
+  - [Step 3: Install Additional Requirements](#step-3-install-additional-requirements)
+  - [Summary of Commands](#summary-of-commands)
+
+- [Accessing Projects](#accessing-projects)
+  - [1st Assignment](#1st-assignment)
+    - [Running the Custom Image Signal Processing (ISP) UI](#running-the-custom-image-signal-processing-isp-ui)
+    - [OpenCV Implementation](#opencv-implementation)
+    - [Running the Custom ISP Code](#running-the-custom-isp-code)
+  - [2nd Assignment](#2nd-assignment)
+    - [Generating a Denoised Image with FFDNet Model](#generating-a-denoised-image-with-ffdnet-model)
+    - [Running the Main Processing Script](#running-the-main-processing-script)
+    - [Custom Model Usage](#custom-model-usage)
+  - [3rd Assignment](#3rd-assignment)
+    - [Running the Assignment](#running-the-assignment)
+    - [Uploading Images for HDR Processing](#uploading-images-for-hdr-processing)
+
+</details>
+
 # Environment Setup and Requirements Installation
 
 Here's a step-by-step guide to set up the environment and install requirements for your assignments, ensuring each step is covered from environment setup to dependencies installation.
